@@ -10,15 +10,15 @@ const server = createServer((req, res) => {
   if (req.method === 'POST') {
     console.log('content-type:', req.headers['content-type'])
 
-    let postData = ''
-    req.on('data', chunk => {
-      postData += chunk.toString()
-    })
-
-    req.on('end', () => {
-      console.log(`post data: ${postData}`)
-      res.end('hello world')
-    })
+    const body = []
+    req
+      .on('data', chunk => {
+        body.push(chunk)
+      })
+      .on('end', () => {
+        const bodyData = Buffer.concat(body).toString()
+        res.end(`hello post data\n${bodyData}`)
+      })
   } else {
     // use `document.charset` to see current document's charset
     res.writeHead(200, { 'Content-Type': 'text/plain;charset=utf-8' })
