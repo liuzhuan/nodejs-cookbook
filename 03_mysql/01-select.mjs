@@ -1,11 +1,14 @@
 // 使用 promise 版本更方便
 import mysql from 'mysql2/promise'
+import dotenv from 'dotenv'
+
+dotenv.config({ path: '../.env' })
 
 // 1. 创建数据库连接
 const connection = await mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: 'awesome-password',
+  password: process.env.MYSQL_PASSWORD,
   database: 'myblog',
 })
 
